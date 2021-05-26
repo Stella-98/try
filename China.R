@@ -2,7 +2,7 @@ library(maptools)
 library(ggplot2)
 library(plyr)
 china_map=readShapePoly("C:/Users/ASUS/Desktop/geo_data/bou2_4p.shp")
-plot(china_map)#Í¶Ó°ÖĞ¹úµØÍ¼£¬±È½Ï±âÆ½
+plot(china_map)#æŠ•å½±ä¸­å›½åœ°å›¾ï¼Œæ¯”è¾ƒæ‰å¹³
 ggplot(china_map,aes(x=long,y=lat,group=group))+
   geom_polygon(fill="white",colour="black")+
   coord_map("polyconic")+
@@ -13,11 +13,11 @@ ggplot(china_map,aes(x=long,y=lat,group=group))+
     axis.ticks=element_blank(),
     axis.title=element_blank(),
     legend.position=c(0.2,0.3)
-  )#ĞŞÕı±âÆ½£¬¿ÉÓĞ¿ÉÎŞ
+  )#ä¿®æ­£æ‰å¹³ï¼Œå¯æœ‰å¯æ— 
 x<-china_map@data
-xs<-data.frame(x,id=seq(0:924)-1)#925¸öµØÓòĞÅÏ¢
-china_map1<-fortify(china_map)#×ª»¯ÎªÊı¾İ¿ò
-china_map_data<-join(china_map1,xs,type="full")#ºÏ²¢Á½¸öÊı¾İ¿ò
+xs<-data.frame(x,id=seq(0:924)-1)#925ä¸ªåœ°åŸŸä¿¡æ¯
+china_map1<-fortify(china_map)#è½¬åŒ–ä¸ºæ•°æ®æ¡†
+china_map_data<-join(china_map1,xs,type="full")#åˆå¹¶ä¸¤ä¸ªæ•°æ®æ¡†
 mydata <- read.table("C:/Users/ASUS/Desktop/CHINA.csv", header=T, sep=",")
 china_data <- join(china_map_data, mydata, type="full")
 plotlyprovince_city<-read.csv("C:/Users/ASUS/Desktop/geo_data/pcity.csv",header=T,as.is=T)
@@ -25,8 +25,8 @@ p=ggplot(china_data,aes(long,lat))+
   geom_polygon(aes(group=number,fill=levels),colour="grey",size=0.01)+
   scale_fill_gradient(low="white",high="red")+
   coord_map("polyconic")+
-  labs(title="ÖĞ¹úÒßÇéÈÈÁ¦Í¼",
-       x="", y="", fill="·Ö×é")+
+  labs(title="ä¸­å›½ç–«æƒ…çƒ­åŠ›å›¾",
+       x="", y="", fill="åˆ†ç»„")+
   geom_text(aes(x=jd,y=wd,label=name),data=province_city,colour="black",size=2.5)+
   theme(
     panel.grid=element_blank(),
