@@ -8,8 +8,8 @@ b = map_data("world")
 mydata <- read.table("C:/Users/ASUS/Desktop/world.csv", header=T, sep=",")
 world_data <- join(b, mydata, type="full")
 ggplot(world_data,aes(x=long,y=lat,group=group,fill=number))+
-  labs(title="世界疫情热力图",
-       x="", y="", fill="人数")+
+  labs(title="脢脌陆莽脪脽脟茅脠脠脕娄脥录",
+       x="", y="", fill="脠脣脢媒")+
   geom_polygon(colour="grey40")+
   scale_fill_gradient(low="white",high="red")+
   theme(
