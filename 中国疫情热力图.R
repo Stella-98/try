@@ -1,0 +1,40 @@
+library(maptools)
+library(ggplot2)
+library(plyr)
+china_map=readShapePoly("C:/Users/ASUS/Desktop/geo_data/bou2_4p.shp")
+plot(china_map)#投影中国地图，比较扁平
+ggplot(china_map,aes(x=long,y=lat,group=group))+
+  geom_polygon(fill="white",colour="black")+
+  coord_map("polyconic")+
+  theme(
+    panel.grid=element_blank(),
+    panel.background=element_blank(),
+    axis.text=element_blank(),
+    axis.ticks=element_blank(),
+    axis.title=element_blank(),
+    legend.position=c(0.2,0.3)
+  )#修正扁平，可有可无
+x<-china_map@data
+xs<-data.frame(x,id=seq(0:924)-1)#925个地域信息
+china_map1<-fortify(china_map)#转化为数据框
+china_map_data<-join(china_map1,xs,type="full")#合并两个数据框
+mydata <- read.table("C:/Users/ASUS/Desktop/CHINA.csv", header=T, sep=",")
+china_data <- join(china_map_data, mydata, type="full")
+plotlyprovince_city<-read.csv("C:/Users/ASUS/Desktop/geo_data/pcity.csv",header=T,as.is=T)
+p=ggplot(china_data,aes(long,lat))+
+  geom_polygon(aes(group=number,fill=levels),colour="grey",size=0.01)+
+  scale_fill_gradient(low="white",high="red")+
+  coord_map("polyconic")+
+  labs(title="中国疫情热力图",
+       x="", y="", fill="分组")+
+  geom_text(aes(x=jd,y=wd,label=name),data=province_city,colour="black",size=2.5)+
+  theme(
+    panel.grid=element_blank(),
+    panel.background=element_blank(),
+    axis.text=element_blank(),
+    axis.ticks=element_blank(),
+    axis.title=element_blank(),
+    legend.position=c(0.2,0.3)
+  )
+library(plotly)
+ggplotly(p)
